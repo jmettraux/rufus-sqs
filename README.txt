@@ -72,15 +72,20 @@ http://rubyforge.org/tracker/?atid=18584&group_id=4812&func=browse
 
 == source
 
-http://rufus.rubyforge.org/svn/trunk/sqs
+http://github.com/jmettraux/rufus-sqs
 
-    svn checkout http://rufus.rubyforge.org/svn/trunk/sqs
+    git clone git://github.com/jmettraux/rufus-sqs.git
 
 
 == author
 
 John Mettraux, jmettraux@gmail.com 
 http://jmettraux.wordpress.com
+
+
+== the rest of Rufus
+
+http://rufus.rubyforge.org
 
 
 == license

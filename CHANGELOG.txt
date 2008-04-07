@@ -1,0 +1,8 @@
+
+= rufus-sqs CHANGELOG.txt
+
+
+== rufus-sqs - 0.8    released 2008/02/03
+
+- todo  #17745 : moved to rufus-sqs - s142
+

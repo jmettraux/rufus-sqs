@@ -7,9 +7,6 @@ require 'rake/packagetask'
 require 'rake/gempackagetask'
 require 'rake/testtask'
 
-#require 'rake/rdoctask'
-require 'hanna/rdoctask'
-
 
 RUFUS_SQS_VERSION = '0.8'
 
@@ -18,24 +15,25 @@ RUFUS_SQS_VERSION = '0.8'
 
 spec = Gem::Specification.new do |s|
 
-  s.name              = 'rufus-sqs'
-  s.version           = RUFUS_SQS_VERSION
-  s.authors           = [ 'John Mettraux' ]
-  s.email             = 'jmettraux@gmail.com'
-  s.homepage          = 'http://rufus.rubyforge.org/rufus-sqs/'
-  s.platform          = Gem::Platform::RUBY
-  s.summary           = 'A Ruby gem for Amazon SQS'
+  s.name = 'rufus-sqs'
+  s.version = RUFUS_SQS_VERSION
+  s.authors = [ 'John Mettraux' ]
+  s.email = 'jmettraux@gmail.com'
+  s.homepage = 'http://rufus.rubyforge.org/rufus-sqs/'
+  s.platform = Gem::Platform::RUBY
+  s.summary = 'A Ruby gem for Amazon SQS'
   #s.license           = 'MIT'
+  s.description = %{A Ruby gem for Amazon SQS}
 
-  s.require_path      = 'lib'
-  #s.autorequire       = "rufus-decision"
-  s.test_file         = 'test/test.rb'
-  s.has_rdoc          = true
-  s.extra_rdoc_files  = [ 'README.txt' ]
+  s.require_path = 'lib'
+  #s.autorequire = "rufus-decision"
+  s.test_file = 'test/test.rb'
+  s.has_rdoc = true
+  s.extra_rdoc_files = [ 'README.txt' ]
 
-  [ 'rufus-verbs' ].each do |d|
-      s.requirements << d
-      s.add_dependency d
+  %w[ rufus-verbs ].each do |d|
+    s.requirements << d
+    s.add_dependency d
   end
 
   files = FileList['"{bin,docs,lib,test}/**/*' ]
@@ -71,16 +69,16 @@ Rake::PackageTask.new("rufus-sqs", RUFUS_SQS_VERSION) do |pkg|
 
   pkg.need_zip = true
   pkg.package_files = FileList[
-      "Rakefile",
-      "*.txt",
-      "lib/**/*",
-      "test/**/*"
+    "Rakefile",
+    "*.txt",
+    "lib/**/*",
+    "test/**/*"
   ].to_a
   #pkg.package_files.delete("MISC.txt")
   class << pkg
-      def package_name
-          "#{@name}-#{@version}-src"
-      end
+    def package_name
+      "#{@name}-#{@version}-src"
+    end
   end
 end
 
@@ -88,31 +86,20 @@ end
 #
 # DOCUMENTATION
 
-Rake::RDocTask.new do |rd|
-
-  rd.main = 'README.txt'
-  rd.rdoc_dir = 'html/rufus-sqs'
-  rd.rdoc_files.include(
-    'README.txt',
-    'CHANGELOG.txt',
-    'LICENSE.txt',
-    #'CREDITS.txt',
-    'lib/**/*.rb')
-  #rd.rdoc_files.exclude('lib/tokyotyrant.rb')
-  rd.title = 'rufus-sqs rdoc'
-  rd.options << '-N' # line numbers
-  rd.options << '-S' # inline source
-end
-
-task :rrdoc => :rdoc do
-  FileUtils.cp('doc/rdoc-style.css', 'html/rufus-sqs/')
+task :rdoc do
+  sh %{
+    rm -fR rdoc
+    yardoc 'lib/**/*.rb' \
+      -o html/rufus-sqs \
+      --title 'rufus-sqs'
+  }
 end
 
 
 #
 # WEBSITE
 
-task :upload_website => [ :clean, :rrdoc ] do
+task :upload_website => [ :clean, :rdoc ] do
 
   account = "jmettraux@rubyforge.org"
   webdir = "/var/www/gforge-projects/rufus"
